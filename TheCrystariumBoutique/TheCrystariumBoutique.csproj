@@ -1,36 +1,46 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Dalamud.NET.Sdk/13.1.0">
  <PropertyGroup>
- <TargetFramework>net8.0</TargetFramework>
+ <!-- Targeting -->
+ <TargetFramework>net8.0-windows</TargetFramework>
  <ImplicitUsings>enable</ImplicitUsings>
  <Nullable>enable</Nullable>
+ <LangVersion>latest</LangVersion>
+
+ <!-- Assembly / plugin identity -->
  <AssemblyName>TheCrystariumBoutique</AssemblyName>
  <RootNamespace>TheCrystariumBoutique</RootNamespace>
  <Version>0.1.0</Version>
- <Description>The Crystarium Boutique plugin.</Description>
  <IsPackable>false</IsPackable>
- <LangVersion>latest</LangVersion>
+
+ <!-- Plugin metadata -->
+ <DalamudPluginName>The Crystarium Boutique</DalamudPluginName>
+ <DalamudPluginAuthor>YourNameHere</DalamudPluginAuthor>
+ <DalamudPluginPunchline>Browse and preview items &amp; stains in style.</DalamudPluginPunchline>
+ <DalamudPluginDescription>The Crystarium Boutique plugin.</DalamudPluginDescription>
+
+ <!-- Match this to the current Dalamud API level your hooks/launcher target.
+ Example only; set to whatever dalamud.dev / SamplePlugin says is current. -->
+ <DalamudApiLevel>13</DalamudApiLevel>
+
+ <!-- Force SDK to use the default dev hooks dir (you said this exists) -->
+ <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
  </PropertyGroup>
 
- <!-- Exclude any stray C# files from nested obj folders (e.g., legacy sample) -->
+ <!-- Clean junk from nested obj -->
  <ItemGroup>
  <Compile Remove="Data/obj/**/*.cs" />
  <None Remove="Data/obj/**/*" />
  <Content Remove="Data/obj/**/*" />
  </ItemGroup>
 
+ <!-- Assets -->
  <ItemGroup>
- <!-- Copy all Data assets except build artifacts -->
  <Content Include="Data/**/*.*" Exclude="Data/obj/**/*">
  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
  <Visible>false</Visible>
  </Content>
- <!-- Ensure plugin.json is copied next to the built DLL -->
  <None Include="plugin.json">
  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
  </None>
- </ItemGroup>
-
- <ItemGroup>
- <PackageReference Include="DalamudPackager" Version="*" PrivateAssets="all" />
  </ItemGroup>
 </Project>
