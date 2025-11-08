@@ -1,0 +1,31 @@
+<Project Sdk="Dalamud.NET.Sdk/13.1.0">
+ <PropertyGroup>
+ <AssemblyName>TheCrystariumBoutique</AssemblyName>
+ <RootNamespace>TheCrystariumBoutique</RootNamespace>
+ <Version>0.1.0</Version>
+ <Description>The Crystarium Boutique plugin.</Description>
+ <PackageProjectUrl>https://github.com/Aesthria/The-Crystarium-Boutique</PackageProjectUrl>
+ <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
+ <IsPackable>false</IsPackable>
+ <!-- Define symbols here as needed; uncomment to enable native Try On interop -->
+ <!-- <DefineConstants>$(DefineConstants);ENABLE_TRYON</DefineConstants> -->
+ </PropertyGroup>
+
+ <!-- Exclude any stray C# files from nested obj folders (e.g., legacy sample) -->
+ <ItemGroup>
+ <Compile Remove="Data/obj/**/*.cs" />
+ <None Remove="Data/obj/**/*" />
+ <Content Remove="Data/obj/**/*" />
+ </ItemGroup>
+
+ <ItemGroup>
+ <Content Include="Data/**/*.*" Exclude="Data/obj/**/*">
+ <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+ <Visible>false</Visible>
+ </Content>
+ <!-- Ensure plugin.json is copied next to the built DLL -->
+ <None Include="plugin.json">
+ <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+ </None>
+ </ItemGroup>
+</Project>
