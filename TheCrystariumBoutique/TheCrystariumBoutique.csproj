@@ -19,13 +19,14 @@
  </ItemGroup>
 
  <ItemGroup>
+ <!-- Copy all Data assets except build artifacts -->
  <Content Include="Data/**/*.*" Exclude="Data/obj/**/*">
  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
  <Visible>false</Visible>
  </Content>
  <!-- Ensure plugin.json is copied next to the built DLL -->
  <None Include="plugin.json">
- <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+ <CopyToOutputDirectory>Always</CopyToOutputDirectory>
  </None>
  </ItemGroup>
 </Project>

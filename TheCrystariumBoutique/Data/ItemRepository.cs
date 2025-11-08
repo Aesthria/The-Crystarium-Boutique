@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection; // <-- Add this using directive
 using Lumina.Excel;
 using Lumina.Excel.GeneratedSheets;
 using Dalamud.Interface.Textures;
@@ -27,7 +28,7 @@ public sealed class ItemRepository : IDisposable
         .Where(p => p.PropertyType == typeof(bool))
         .ToArray();
 
-    private static readonly Dictionary<string, PropertyInfo> JobPropMap = ClassJobBoolProps
+    private static readonly Dictionary<string,  PropertyInfo> JobPropMap = ClassJobBoolProps
         .ToDictionary(p => p.Name.ToUpperInvariant(), p => p, StringComparer.OrdinalIgnoreCase);
 
     // Job groups used to infer armor family
