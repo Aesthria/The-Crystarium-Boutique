@@ -186,8 +186,8 @@ namespace ImGuiNET
  public static void Text(string text) { }
  public static void TextUnformatted(string text) { }
  public static void TextColored(System.Numerics.Vector4 color, string text) { }
- public static bool Button(string label, System.Numerics.Vector2 size) => false;
  public static bool Button(string label) => false;
+ public static bool Button(string label, System.Numerics.Vector2 size) => false;
  public static System.Numerics.Vector2 GetCursorPos() => System.Numerics.Vector2.Zero;
  public static float GetCursorPosX() =>0f;
  public static void SetCursorPos(System.Numerics.Vector2 pos) { }
