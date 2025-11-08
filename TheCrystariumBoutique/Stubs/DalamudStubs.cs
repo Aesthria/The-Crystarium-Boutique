@@ -160,7 +160,11 @@ namespace Dalamud.Interface.Windowing
 namespace ImGuiNET
 {
  [Flags]
- public enum ImGuiWindowFlags { None =0 }
+ public enum ImGuiWindowFlags {
+ None =0,
+ NoScrollbar =1 <<0,
+ NoScrollWithMouse =1 <<1,
+ }
 
  [Flags]
  public enum ImGuiTableFlags { None =0, PadOuterX =1, SizingStretchProp =2 }
@@ -181,25 +185,29 @@ namespace ImGuiNET
  public static void SetItemDefaultFocus() { }
  public static void Text(string text) { }
  public static void TextUnformatted(string text) { }
- public static bool Button(string label, Vector2 size) => false;
- public static Vector2 GetCursorPos() => Vector2.Zero;
- public static void SetCursorPos(Vector2 pos) { }
- public static void Image(IntPtr textureId, Vector2 size) { }
+ public static void TextColored(System.Numerics.Vector4 color, string text) { }
+ public static bool Button(string label, System.Numerics.Vector2 size) => false;
+ public static bool Button(string label) => false;
+ public static System.Numerics.Vector2 GetCursorPos() => System.Numerics.Vector2.Zero;
+ public static float GetCursorPosX() =>0f;
+ public static void SetCursorPos(System.Numerics.Vector2 pos) { }
+ public static void Image(IntPtr textureId, System.Numerics.Vector2 size) { }
  public static bool IsItemClicked() => false;
  public static bool IsItemHovered() => false;
  public static void BeginTooltip() { }
  public static void EndTooltip() { }
  public static void PushTextWrapPos(float wrapPosX) { }
  public static void PopTextWrapPos() { }
+ public static void Spacing() { }
  public static bool Combo(string label, ref int currentItem, string[] items, int itemsCount) => false;
- public static void BeginChild(string strId, Vector2 size, bool border) { }
+ public static void BeginChild(string strId, System.Numerics.Vector2 size, bool border) { }
  public static void EndChild() { }
  public static bool CollapsingHeader(string label, ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags.None) => false;
  public static void BulletText(string text) { }
  public static void BeginGroup() { }
  public static void EndGroup() { }
  public static void InputTextWithHint(string label, string hint, ref string input, uint maxLength) { }
- public static void InputTextMultiline(string label, ref string input, int maxLength, Vector2 size) { }
+ public static void InputTextMultiline(string label, ref string input, int maxLength, System.Numerics.Vector2 size) { }
  public static void SetClipboardText(string text) { }
  public static bool BeginTable(string id, int columns, ImGuiTableFlags flags) => false;
  public static void EndTable() { }

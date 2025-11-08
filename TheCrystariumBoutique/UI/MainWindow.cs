@@ -124,7 +124,7 @@ public sealed class MainWindow : Window, IDisposable
         ImGui.SameLine();
 
         // Weapon job filter toggle
-        if (ImGuiComponents.IconButton(_weaponJobFilter ? FontAwesomeIcon.UserCheck : FontAwesomeIcon.User))
+        if (ImGuiComponents.IconButton(_weaponJobFilter ? Dalamud.Interface.Components.FontAwesomeIcon.UserCheck : Dalamud.Interface.Components.FontAwesomeIcon.User))
         {
             _weaponJobFilter = !_weaponJobFilter;
             _page = 0;
@@ -137,7 +137,7 @@ public sealed class MainWindow : Window, IDisposable
         }
         ImGui.SameLine();
 
-        if (ImGuiComponents.IconButton(FontAwesomeIcon.Sync))
+        if (ImGuiComponents.IconButton(Dalamud.Interface.Components.FontAwesomeIcon.Sync))
         {
             _search = string.Empty;
             _page = 0;
@@ -250,14 +250,14 @@ public sealed class MainWindow : Window, IDisposable
 
     private void DrawPager(int totalPages)
     {
-        if (ImGuiComponents.IconButton(FontAwesomeIcon.ChevronLeft))
+        if (ImGuiComponents.IconButton(Dalamud.Interface.Components.FontAwesomeIcon.ChevronLeft))
         {
             if (_page > 0) _page--;
         }
         ImGui.SameLine();
         ImGui.Text($"Page {_page + 1} / {totalPages}");
         ImGui.SameLine();
-        if (ImGuiComponents.IconButton(FontAwesomeIcon.ChevronRight))
+        if (ImGuiComponents.IconButton(Dalamud.Interface.Components.FontAwesomeIcon.ChevronRight))
         {
             if (_page < totalPages - 1) _page++;
         }

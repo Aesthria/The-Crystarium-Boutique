@@ -11,7 +11,7 @@ using Dalamud.Game; // + SigScanner
 
 namespace TheCrystariumBoutique;
 
-internal static class Svc
+internal sealed class Svc
 {
     [PluginService] internal static IDalamudPluginInterface PluginInterface { get; private set; } = null!;
     [PluginService] internal static ICommandManager Commands { get; private set; } = null!;

@@ -1,14 +1,14 @@
-<Project Sdk="Dalamud.NET.Sdk/13.1.0">
+<Project Sdk="Microsoft.NET.Sdk">
  <PropertyGroup>
+ <TargetFramework>net8.0</TargetFramework>
+ <ImplicitUsings>enable</ImplicitUsings>
+ <Nullable>enable</Nullable>
  <AssemblyName>TheCrystariumBoutique</AssemblyName>
  <RootNamespace>TheCrystariumBoutique</RootNamespace>
  <Version>0.1.0</Version>
  <Description>The Crystarium Boutique plugin.</Description>
- <PackageProjectUrl>https://github.com/Aesthria/The-Crystarium-Boutique</PackageProjectUrl>
- <PackageLicenseExpression>AGPL-3.0-or-later</PackageLicenseExpression>
  <IsPackable>false</IsPackable>
- <!-- Define symbols here as needed; uncomment to enable native Try On interop -->
- <!-- <DefineConstants>$(DefineConstants);ENABLE_TRYON</DefineConstants> -->
+ <LangVersion>latest</LangVersion>
  </PropertyGroup>
 
  <!-- Exclude any stray C# files from nested obj folders (e.g., legacy sample) -->
@@ -28,5 +28,9 @@
  <None Include="plugin.json">
  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
  </None>
+ </ItemGroup>
+
+ <ItemGroup>
+ <PackageReference Include="DalamudPackager" Version="*" PrivateAssets="all" />
  </ItemGroup>
 </Project>

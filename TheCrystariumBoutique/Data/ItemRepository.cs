@@ -10,14 +10,14 @@ namespace TheCrystariumBoutique;
 
 public sealed class ItemRepository : IDisposable
 {
-    private readonly ExcelSheet<Item> _items = new();
-    private readonly ExcelSheet<Stain> _stains = new();
-    private readonly ExcelSheet<ClassJob> _classJobs = new();
-    private readonly Dictionary<uint, IDalamudTextureWrap> _iconCache = new();
-    private readonly Dictionary<GearSlot, List<Item>> _bySlot = new();
+    private readonly ExcelSheet<Item> _items = new ExcelSheet<Item>();
+    private readonly ExcelSheet<Stain> _stains = new ExcelSheet<Stain>();
+    private readonly ExcelSheet<ClassJob> _classJobs = new ExcelSheet<ClassJob>();
+    private readonly Dictionary<uint, IDalamudTextureWrap> _iconCache = new Dictionary<uint, IDalamudTextureWrap>();
+    private readonly Dictionary<GearSlot, List<Item>> _bySlot = new Dictionary<GearSlot, List<Item>>();
 
     // Cache of enabled job abbrevs per ClassJobCategory row id
-    private readonly Dictionary<uint, HashSet<string>> _cjcEnabledCache = new();
+    private readonly Dictionary<uint, HashSet<string>> _cjcEnabledCache = new Dictionary<uint, HashSet<string>>();
 
     public IReadOnlyDictionary<GearSlot, List<Item>> ItemsBySlot => _bySlot;
     public IReadOnlyList<Stain> Stains => _stains;
@@ -28,34 +28,42 @@ public sealed class ItemRepository : IDisposable
         .Where(p => p.PropertyType == typeof(bool))
         .ToArray();
 
-    private static readonly Dictionary<string,  PropertyInfo> JobPropMap = ClassJobBoolProps
+    private static readonly Dictionary<string, PropertyInfo> JobPropMap = ClassJobBoolProps
         .ToDictionary(p => p.Name.ToUpperInvariant(), p => p, StringComparer.OrdinalIgnoreCase);
 
-    // Job groups used to infer armor family
-    private static readonly HashSet<string> Tanks = new(StringComparer.OrdinalIgnoreCase) { "GLA", "PLD", "MRD", "WAR", "DRK", "GNB" };
-    private static readonly HashSet<string> Maiming = new(StringComparer.OrdinalIgnoreCase) { "LNC", "DRG" };
-    private static readonly HashSet<string> Striking = new(StringComparer.OrdinalIgnoreCase) { "PGL", "MNK", "SAM" };
-    private static readonly HashSet<string> Scouting = new(StringComparer.OrdinalIgnoreCase) { "ROG", "NIN" };
-    private static readonly HashSet<string> Aiming = new(StringComparer.OrdinalIgnoreCase) { "ARC", "BRD", "MCH", "DNC" };
-    private static readonly HashSet<string> Healing = new(StringComparer.OrdinalIgnoreCase) { "CNJ", "WHM", "SCH", "AST", "SGE" };
-    private static readonly HashSet<string> Casting = new(StringComparer.OrdinalIgnoreCase) { "THM", "BLM", "ACN", "SMN", "RDM", "BLU", "PCT" };
+    // Job groups used to infer armor family (case sensitivity not critical in stubs, drop comparer to avoid constructor issues)
+    private static readonly HashSet<string> Tanks = NewSet("GLA", "PLD", "MRD", "WAR", "DRK", "GNB");
+    private static readonly HashSet<string> Maiming = NewSet("LNC", "DRG");
+    private static readonly HashSet<string> Striking = NewSet("PGL", "MNK", "SAM");
+    private static readonly HashSet<string> Scouting = NewSet("ROG", "NIN");
+    private static readonly HashSet<string> Aiming = NewSet("ARC", "BRD", "MCH", "DNC");
+    private static readonly HashSet<string> Healing = NewSet("CNJ", "WHM", "SCH", "AST", "SGE");
+    private static readonly HashSet<string> Casting = NewSet("THM", "BLM", "ACN", "SMN", "RDM", "BLU", "PCT");
+    private static readonly HashSet<string> Crafting = NewSet("CRP", "BSM", "ARM", "GSM", "LTW", "WVR", "ALC", "CUL");
+    private static readonly HashSet<string> Gathering = NewSet("MIN", "BTN", "FSH");
 
-    private static readonly HashSet<string> Crafting = new(StringComparer.OrdinalIgnoreCase) { "CRP", "BSM", "ARM", "GSM", "LTW", "WVR", "ALC", "CUL" };
-    private static readonly HashSet<string> Gathering = new(StringComparer.OrdinalIgnoreCase) { "MIN", "BTN", "FSH" };
+    private static readonly HashSet<string> DoW = CombineSets(Tanks, Maiming, Striking, Scouting, Aiming);
+    private static readonly HashSet<string> DoM = CombineSets(Healing, Casting);
 
-    private static readonly HashSet<string> DoW = new(StringComparer.OrdinalIgnoreCase)
-        .Concat(Tanks).Concat(Maiming).Concat(Striking).Concat(Scouting).Concat(Aiming).ToHashSet(StringComparer.OrdinalIgnoreCase);
+    private static HashSet<string> NewSet(params string[] values)
+    {
+        var hs = new HashSet<string>();
+        foreach (var v in values) hs.Add(v);
+        return hs;
+    }
 
-    private static readonly HashSet<string> DoM = new(StringComparer.OrdinalIgnoreCase)
-        .Concat(Healing).Concat(Casting).ToHashSet(StringComparer.OrdinalIgnoreCase);
+    private static HashSet<string> CombineSets(params HashSet<string>[] groups)
+    {
+        var hs = new HashSet<string>();
+        foreach (var g in groups)
+            foreach (var s in g) hs.Add(s);
+        return hs;
+    }
 
     public ItemRepository()
     {
-        // Stub data for compilation environment. Real plugin populates from Lumina via Svc.DataManager.
         foreach (var slot in Enum.GetValues(typeof(GearSlot)).Cast<GearSlot>())
-        {
             _bySlot[slot] = new List<Item>();
-        }
     }
 
     public IEnumerable<Item> GetFilteredForSlot(
@@ -75,7 +83,7 @@ public sealed class ItemRepository : IDisposable
     }
 
     public ArmorTypeFilter ClassifyArmorType(Item item) => ArmorTypeFilter.Universal;
-    private HashSet<string> GetEnabledJobAbbrevs(ClassJobCategory cat) => new();
+    private HashSet<string> GetEnabledJobAbbrevs(ClassJobCategory cat) => new HashSet<string>();
     private bool IsAllowedForCurrentJob(Item item) => true;
     public IDalamudTextureWrap? GetIcon(uint iconId)
     {
