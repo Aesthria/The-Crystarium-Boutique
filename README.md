@@ -1,6 +1,6 @@
 # The Crystarium Boutique
 
-Browse and preview gear like a transmog browser for FFXIV. Search by slot, filter by armor family, preview dyes, and save/share outfits.
+Browse and preview gear like World Of Warcrafts Appearance tab for FFXIV. Search by slot, filter by armor family, preview dyes, and save/share outfits and it'll reflect your selected glam in the "Try on" Window.
 
 Status: Early preview. Try On native interop is optional; a stub logs previews unless the symbol is enabled.
 
