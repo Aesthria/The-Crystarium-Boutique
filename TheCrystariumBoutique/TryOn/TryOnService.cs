@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
+using TheCrystariumBoutique.Data;
 
 namespace TheCrystariumBoutique;
 

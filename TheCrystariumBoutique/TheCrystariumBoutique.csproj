@@ -1,46 +1,40 @@
 <Project Sdk="Dalamud.NET.Sdk/13.1.0">
- <PropertyGroup>
- <!-- Targeting -->
- <TargetFramework>net8.0-windows</TargetFramework>
- <ImplicitUsings>enable</ImplicitUsings>
- <Nullable>enable</Nullable>
- <LangVersion>latest</LangVersion>
+    <PropertyGroup>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <DefineConstants>ENABLE_TRYON</DefineConstants>
 
- <!-- Assembly / plugin identity -->
- <AssemblyName>TheCrystariumBoutique</AssemblyName>
- <RootNamespace>TheCrystariumBoutique</RootNamespace>
- <Version>0.1.0</Version>
- <IsPackable>false</IsPackable>
+        <AssemblyName>TheCrystariumBoutique</AssemblyName>
+        <RootNamespace>TheCrystariumBoutique</RootNamespace>
+        <Version>0.1.0</Version>
+        <IsPackable>false</IsPackable>
 
- <!-- Plugin metadata -->
- <DalamudPluginName>The Crystarium Boutique</DalamudPluginName>
- <DalamudPluginAuthor>YourNameHere</DalamudPluginAuthor>
- <DalamudPluginPunchline>Browse and preview items &amp; stains in style.</DalamudPluginPunchline>
- <DalamudPluginDescription>The Crystarium Boutique plugin.</DalamudPluginDescription>
+        <DalamudPluginName>The Crystarium Boutique</DalamudPluginName>
+        <DalamudPluginAuthor>Aesthria</DalamudPluginAuthor>
+        <DalamudPluginPunchline>Browse and preview items &amp; stains in style.</DalamudPluginPunchline>
+        <DalamudPluginDescription>Browse gear by slot, preview with Try On, dye, and save/share outfits.</DalamudPluginDescription>
 
- <!-- Match this to the current Dalamud API level your hooks/launcher target.
- Example only; set to whatever dalamud.dev / SamplePlugin says is current. -->
- <DalamudApiLevel>13</DalamudApiLevel>
+        <!-- SINGLE source of truth -->
+        <DalamudApiLevel>13</DalamudApiLevel>
 
- <!-- Force SDK to use the default dev hooks dir (you said this exists) -->
- <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
- </PropertyGroup>
+        <!-- Let Dalamud.NET.Sdk own assembly attributes -->
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    </PropertyGroup>
 
- <!-- Clean junk from nested obj -->
- <ItemGroup>
- <Compile Remove="Data/obj/**/*.cs" />
- <None Remove="Data/obj/**/*" />
- <Content Remove="Data/obj/**/*" />
- </ItemGroup>
+    <!-- Exclude junk in Data/obj (where SamplePlugin lives) -->
+    <ItemGroup>
+        <Compile Remove="Data/obj/**/*.cs" />
+        <None   Remove="Data/obj/**/*" />
+        <Content Remove="Data/obj/**/*" />
+    </ItemGroup>
 
- <!-- Assets -->
- <ItemGroup>
- <Content Include="Data/**/*.*" Exclude="Data/obj/**/*">
- <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
- <Visible>false</Visible>
- </Content>
- <None Include="plugin.json">
- <CopyToOutputDirectory>Always</CopyToOutputDirectory>
- </None>
- </ItemGroup>
+    <!-- Copy real Data assets -->
+    <ItemGroup>
+        <Content Include="Data/**/*.*" Exclude="Data/obj/**/*">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>false</Visible>
+        </Content>
+    </ItemGroup>
 </Project>

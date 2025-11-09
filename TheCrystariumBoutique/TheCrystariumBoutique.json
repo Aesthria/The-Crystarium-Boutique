@@ -1,9 +1,16 @@
 {
- "Name": "The Crystarium Boutique",
- "Author": "Aesthria",
- "Punchline": "WoW-style Appearances for FFXIV, leveraging Try On.",
- "Description": "Browse gear by slot, preview with Try On, dye, and save/share outfits.",
- "RepoUrl": "https://github.com/Aesthria/The-Crystarium-Boutique",
- "ApplicableVersion": "any",
- "DalamudApiLevel":10
+  "Author": "Aesthria",
+  "Name": "The Crystarium Boutique",
+  "InternalName": "TheCrystariumBoutique",
+  "AssemblyVersion": "0.1.0.0",
+  "Description": "Browse gear by slot, preview with Try On, dye, and save/share outfits.",
+  "ApplicableVersion": "any",
+  "RepoUrl": "https://github.com/Aesthria/The-Crystarium-Boutique",
+  "DalamudApiLevel": 13,
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false,
+  "LoadPriority": 0,
+  "Punchline": "WoW-style Appearances for FFXIV, leveraging Try On.",
+  "AcceptsFeedback": true
 }
