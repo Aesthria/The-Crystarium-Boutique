@@ -5,7 +5,11 @@ param(
 
     [switch]$NoRestore,
 
-    [switch]$SkipStage
+    [switch]$SkipStage,
+
+    [string]$Version,
+
+    [string]$AssemblyVersion
 )
 
 $ErrorActionPreference = 'Stop'
@@ -32,10 +36,25 @@ try {
         }
     }
 
-    dotnet build $solutionPath `
-        --configuration $Configuration `
-        --property:Platform=x64 `
-        --no-restore
+    $buildArguments = @(
+        'build',
+        $solutionPath,
+        '--configuration',
+        $Configuration,
+        '--property:Platform=x64',
+        '--no-restore'
+    )
+    if (-not [string]::IsNullOrWhiteSpace($Version)) {
+        $buildArguments += "--property:Version=$Version"
+        $buildArguments += "--property:InformationalVersion=$Version"
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($AssemblyVersion)) {
+        $buildArguments += "--property:AssemblyVersion=$AssemblyVersion"
+        $buildArguments += "--property:FileVersion=$AssemblyVersion"
+    }
+
+    dotnet @buildArguments
     if ($LASTEXITCODE -ne 0) {
         throw "dotnet build failed with exit code $LASTEXITCODE."
     }

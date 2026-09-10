@@ -2,7 +2,7 @@
 
 Start with [Installation](docs/INSTALLATION.md), [Features](docs/FEATURES.md), [Design Import](docs/DESIGN-IMPORT.md), and [Troubleshooting](docs/TROUBLESHOOTING.md).
 
-Once the repository is public, use its GitHub issue forms for:
+Use the repository's GitHub issue forms for:
 
 - reproducible functional bugs,
 - incorrect item or acquisition data,

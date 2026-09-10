@@ -2,6 +2,8 @@
 
 **Browse FFXIV's wardrobe like a boutique.**
 
+Current release: **v0.1.0**
+
 The Crystarium Boutique (TCB) is a visual equipment-discovery and appearance-preview plugin for FINAL FANTASY XIV. Browse equipment, preview items and dyes on your character, organize Favorites, build and share Designs, work from the synchronized Crystal Wardrobe, and inspect supported acquisition information without leaving the plugin.
 
 ## Features
@@ -70,9 +72,13 @@ Glamourer and Penumbra are independent projects. Neither plugin nor either API a
 
 ## Installation and updating
 
-Public distribution is planned through a custom Dalamud plugin repository. The repository URL is not live yet and will be supplied at release; no current URL should be treated as an installation feed.
+Install The Crystarium Boutique through its custom Dalamud plugin repository:
 
-Once enabled, installation will follow the normal custom-repository flow: add the supplied URL under Dalamud's Experimental/Custom Plugin Repositories settings, save, open `/xlplugins`, find **The Crystarium Boutique**, and install. Updates will then be delivered through Dalamud. See [Installation](docs/INSTALLATION.md).
+```text
+https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/repo.json
+```
+
+Add the URL under Dalamud's Experimental/Custom Plugin Repositories settings, save or refresh, open `/xlplugins`, find **The Crystarium Boutique**, and install. Updates are then delivered through Dalamud. See [Installation](docs/INSTALLATION.md).
 
 ## Privacy and local-first behavior
 
@@ -100,6 +106,8 @@ dotnet restore CrystariumBoutique.sln --locked-mode
 ```
 
 The build script compiles the solution, validates runtime dependencies, and runs both automated test projects. Omit `-SkipStage` only for local native development staging.
+
+Maintainer-only packaging and custom-repository procedures are documented in [Release infrastructure](docs/RELEASE.md).
 
 ## License and credits
 

@@ -1,0 +1,27 @@
+[
+  {
+    "Author": "Aesthria",
+    "Name": "The Crystarium Boutique",
+    "Punchline": "Browse FFXIV's wardrobe like a boutique.",
+    "Description": "Browse FFXIV equipment like a boutique, preview items and dyes instantly, organize Favorites and Designs, use the Crystal Wardrobe, and view offline acquisition information.",
+    "InternalName": "CrystariumBoutique",
+    "AssemblyVersion": "0.1.0.0",
+    "RepoUrl": "https://github.com/Aesthria/The-Crystarium-Boutique",
+    "ApplicableVersion": "any",
+    "DalamudApiLevel": 15,
+    "DownloadLinkInstall": "https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.0/CrystariumBoutique-0.1.0.zip",
+    "DownloadLinkUpdate": "https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.0/CrystariumBoutique-0.1.0.zip",
+    "IconUrl": "https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png",
+    "Tags": [
+      "appearance",
+      "glamour",
+      "wardrobe",
+      "fashion",
+      "equipment",
+      "design"
+    ],
+    "Changelog": "Initial v0.1.0 release:\n- Browse and preview FFXIV equipment, visual variants, dual dyes, and visor states directly on your character.\n- Use Crystal Wardrobe, automatic synchronization, Revert Item, Reset Character, and Clear All Dye Slots.\n- Organize Favorites and named lists, and save Designs with custom names and notes.\n- Import or export Design strings and import supported Eorzea Collection glamours.\n- View offline acquisition/source tooltips and filter by Level, Role, and Limited roles including Beastmaster.\n- Choose from three interface themes.",
+    "IsHide": false,
+    "IsTestingExclusive": false
+  }
+]

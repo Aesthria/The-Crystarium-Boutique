@@ -2,15 +2,13 @@
 
 ## Supported version
 
-Before the first public release, only the current development line is maintained. After release, security fixes will target the latest supported public version unless a release notice states otherwise.
+Security fixes target the latest supported public version unless a release notice states otherwise.
 
 ## Reporting a vulnerability
 
 Do not publish credentials, tokens, private account data, exploit details, or unredacted logs in a public issue.
 
-No private security-reporting address or verified private vulnerability-reporting channel is currently designated. Until the repository owner configures one, do not open a public issue containing sensitive details. A non-sensitive issue may state that a security concern exists and request a private contact path, without including the vulnerability details.
-
-**Required owner action before v0.1.0:** configure and verify a private vulnerability-reporting mechanism, then document its exact supported entry point here. This statement does not claim that GitHub private vulnerability reporting is currently enabled.
+When the repository's **Security** tab offers **Report a vulnerability**, use that route to submit a private report. If that control is unavailable, do not open a public issue containing sensitive details. A non-sensitive issue may state that a security concern exists and request a private contact path, without including the vulnerability details.
 
 For ordinary crashes, incorrect item data, or visual defects that do not expose sensitive information, use the normal issue forms described in [Support](SUPPORT.md).
 

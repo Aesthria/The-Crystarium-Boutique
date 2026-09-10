@@ -6,7 +6,7 @@ internal static class BoutiqueVersion
 {
     public static string SemanticVersion { get; } = ResolveSemanticVersion();
 
-    public static string DisplayLabel => $"v{SemanticVersion} · Closed private beta";
+    public static string DisplayLabel => $"v{SemanticVersion}";
 
     private static string ResolveSemanticVersion()
     {

@@ -2,7 +2,7 @@
 
 All notable changes to The Crystarium Boutique are recorded here. Entries under **Unreleased** describe the current development state and do not represent a published release.
 
-## [0.1.0] - Unreleased
+## [0.1.0] - 2026-09-10
 
 ### Added
 
@@ -12,12 +12,15 @@ All notable changes to The Crystarium Boutique are recorded here. Entries under 
 - Saved Designs with custom names and notes, management actions, movable item-reference lists, and portable Design-string import/export sharing.
 - Supported Eorzea Collection glamour URL import, with an explicit Save Design step and normal post-import modification.
 - Persistent dual-dye preview and Clear All Dye Slots for active session dyes.
+- Revert Item and Reset Character controls for safely undoing temporary appearance previews.
+- Deterministic visor controls for supported headgear.
 - Packaged offline How to Obtain information with conservative exact-item duty and boss attribution.
 - Simple, The Crystarium Boutique, and Simple Crystarium Boutique themes.
 
 ### Changed
 
 - Preserved meaningful visual variants across shared models, including baked colors, dye capability, relic progression, replicas, and Matte appearances where applicable.
+- Added truthful Level and Role filtering, including Beastmaster and other Limited-role equipment support.
 - Adopted the actual valid active appearance after loading a Design, retaining compatible current equipment when a cross-job entry cannot apply.
 - Refined theme presentation, responsive layouts, tooltip controls, and Crystal Wardrobe sizing/orientation behavior.
 
