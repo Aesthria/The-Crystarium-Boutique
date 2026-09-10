@@ -237,11 +237,11 @@ try {
     try {
         $archiveTimestamp = [DateTimeOffset]::new(2000, 1, 1, 0, 0, 0, [TimeSpan]::Zero)
         $archiveFiles = @(
-            Get-ChildItem -LiteralPath $versionWorkingRoot -File -Recurse |
-                Sort-Object { [IO.Path]::GetRelativePath($versionWorkingRoot, $_.FullName) }
+            Get-ChildItem -LiteralPath $packageRoot -File -Recurse |
+                Sort-Object { [IO.Path]::GetRelativePath($packageRoot, $_.FullName) }
         )
         foreach ($file in $archiveFiles) {
-            $entryName = [IO.Path]::GetRelativePath($versionWorkingRoot, $file.FullName).Replace('\', '/')
+            $entryName = [IO.Path]::GetRelativePath($packageRoot, $file.FullName).Replace('\', '/')
             $entry = $archive.CreateEntry($entryName, [IO.Compression.CompressionLevel]::Optimal)
             $entry.LastWriteTime = $archiveTimestamp
             $inputStream = [IO.File]::OpenRead($file.FullName)

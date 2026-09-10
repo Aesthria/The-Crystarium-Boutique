@@ -6,7 +6,7 @@ on:
       version:
         description: Synthetic release version for a non-publishing dry run
         required: true
-        default: 0.1.0-rc.0
+        default: 0.1.1-rc.0
         type: string
   push:
     tags:

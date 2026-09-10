@@ -2,7 +2,7 @@
 
 **Browse FFXIV's wardrobe like a boutique.**
 
-Current release: **v0.1.0**
+Current release: **v0.1.1**
 
 The Crystarium Boutique (TCB) is a visual equipment-discovery and appearance-preview plugin for FINAL FANTASY XIV. Browse equipment, preview items and dyes on your character, organize Favorites, build and share Designs, work from the synchronized Crystal Wardrobe, and inspect supported acquisition information without leaving the plugin.
 

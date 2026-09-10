@@ -37,7 +37,7 @@ if ([string]::IsNullOrWhiteSpace($Changelog)) {
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $archive = [IO.Compression.ZipFile]::OpenRead($resolvedPackagePath)
 try {
-    $manifestEntry = $archive.GetEntry('CrystariumBoutique/PACKAGE-MANIFEST.json')
+    $manifestEntry = $archive.GetEntry('PACKAGE-MANIFEST.json')
     if ($null -eq $manifestEntry) {
         throw 'Release ZIP does not contain PACKAGE-MANIFEST.json.'
     }

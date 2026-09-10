@@ -1,6 +1,6 @@
 # Feature Reference
 
-This page describes the user-facing features available in The Crystarium Boutique 0.1.0 release candidate.
+This page describes the user-facing features available in The Crystarium Boutique 0.1.1 release.
 
 ## Boutique browsing
 

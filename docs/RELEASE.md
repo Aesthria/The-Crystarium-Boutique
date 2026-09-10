@@ -17,7 +17,7 @@ The stable entry intentionally omits all testing-channel fields. `DownloadLinkIn
 
 The scripts derive the four-part CLR/Dalamud assembly version as `major.minor.patch.N` for an RC and `major.minor.patch.0` for a final release. An RC used only for infrastructure testing must never be published if its numeric assembly version could conflict with a later stable release.
 
-The checked-in runtime is `0.1.0`, with numeric assembly/file version `0.1.0.0` and the neutral `v0.1.0` UI label.
+The checked-in runtime is `0.1.1`, with numeric assembly/file version `0.1.1.0` and the neutral `v0.1.1` UI label.
 
 ## Local dry run
 
@@ -25,7 +25,7 @@ From a reviewed working tree:
 
 ```powershell
 .\scripts\Invoke-ReleaseDryRun.ps1 `
-  -Version 0.1.0-rc.0 `
+  -Version 0.1.1-rc.0 `
   -AllowDirty
 ```
 
@@ -53,7 +53,7 @@ No step contacts GitHub or publishes an artifact.
 5. Commit the exact reviewed `repo.json` and release-preparation changes, then push the reviewed commit while the repository is still private.
 6. With explicit owner approval, configure public security/reporting protections and make the clean repository public.
 7. Verify anonymous source, license, README, icon, and `repo.json` access.
-8. Create and push the exact stable version tag, such as `v0.1.0`.
+8. Create and push the exact stable version tag, such as `v0.1.1`.
 9. The tag-only workflow rebuilds and validates the release, requires its generated feed to match committed `repo.json`, and then creates the GitHub Release with the ZIP asset.
 10. Verify the release asset, package provenance, anonymous feed access, Dalamud installation, and update behavior.
 
@@ -77,7 +77,7 @@ The validator rejects every unexpected ZIP entry, API/plugin binaries owned by G
 
 - Feed: `https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/repo.json`
 - Repository: `https://github.com/Aesthria/The-Crystarium-Boutique`
-- Release ZIP example: `https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.0/CrystariumBoutique-0.1.0.zip`
+- Release ZIP example: `https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.1/CrystariumBoutique-0.1.1.zip`
 - Icon: `https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png`
 
 The repository, feed, and icon endpoints require a public repository. The release ZIP additionally requires the corresponding tagged GitHub Release and asset.

@@ -18,6 +18,8 @@ if ([string]::IsNullOrWhiteSpace($RepoOutputPath)) {
     $RepoOutputPath = Join-Path $repositoryRoot 'repo.json'
 }
 
+& (Join-Path $PSScriptRoot 'Test-ReleasePackageLayoutRegression.ps1')
+
 $packageArguments = @{
     Version = $Version
     SourceRoot = $repositoryRoot

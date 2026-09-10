@@ -17,6 +17,9 @@ if ([IO.Path]::GetFileName($resolvedPackagePath) -ne $expectedFileName) {
     throw "Release ZIP '$resolvedPackagePath' must be named '$expectedFileName'."
 }
 
+& (Join-Path $PSScriptRoot 'Assert-ReleasePackageLayout.ps1') `
+    -PackagePath $resolvedPackagePath
+
 Add-Type -AssemblyName System.IO.Compression
 $archive = [IO.Compression.ZipFile]::OpenRead($resolvedPackagePath)
 try {
@@ -30,13 +33,13 @@ try {
     }
 
     $expectedEntries = @(
-        $definition.RootFiles | ForEach-Object { "CrystariumBoutique/$_" }
-        $definition.ImageFiles | ForEach-Object { "CrystariumBoutique/images/$_" }
-        $definition.DataFiles | ForEach-Object { "CrystariumBoutique/data/$_" }
+        $definition.RootFiles
+        $definition.ImageFiles | ForEach-Object { "images/$_" }
+        $definition.DataFiles | ForEach-Object { "data/$_" }
         $definition.DistributionFiles | ForEach-Object {
-            "CrystariumBoutique/$($_.Destination.Replace('\', '/'))"
+            $_.Destination.Replace('\', '/')
         }
-        'CrystariumBoutique/PACKAGE-MANIFEST.json'
+        'PACKAGE-MANIFEST.json'
     )
     $missing = @($expectedEntries | Where-Object { -not $entryMap.ContainsKey($_) })
     $unexpected = @($entryMap.Keys | Where-Object { $_ -notin $expectedEntries } | Sort-Object)
@@ -108,7 +111,7 @@ try {
     }
 
     $packageManifest = Read-EntryText `
-        -Entry $entryMap['CrystariumBoutique/PACKAGE-MANIFEST.json'] |
+        -Entry $entryMap['PACKAGE-MANIFEST.json'] |
         ConvertFrom-Json
     if ($packageManifest.schemaVersion -ne 1 -or
         $packageManifest.packageVersion -ne $ExpectedVersion) {
@@ -136,8 +139,7 @@ try {
     }
     $expectedManifestPaths = @(
         $expectedEntries |
-            Where-Object { $_ -ne 'CrystariumBoutique/PACKAGE-MANIFEST.json' } |
-            ForEach-Object { $_.Substring('CrystariumBoutique/'.Length) }
+            Where-Object { $_ -ne 'PACKAGE-MANIFEST.json' }
     )
     $manifestMissing = @($expectedManifestPaths | Where-Object { -not $manifestMap.ContainsKey($_) })
     $manifestUnexpected = @($manifestMap.Keys | Where-Object { $_ -notin $expectedManifestPaths })
@@ -146,7 +148,7 @@ try {
     }
 
     foreach ($relativePath in $expectedManifestPaths) {
-        $entry = $entryMap["CrystariumBoutique/$relativePath"]
+        $entry = $entryMap[$relativePath]
         $bytes = Read-EntryBytes -Entry $entry
         $actualHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($bytes)).ToLowerInvariant()
         $record = $manifestMap[$relativePath]
@@ -155,7 +157,7 @@ try {
         }
     }
 
-    $pluginManifest = Read-EntryText -Entry $entryMap['CrystariumBoutique/CrystariumBoutique.json'] |
+    $pluginManifest = Read-EntryText -Entry $entryMap['CrystariumBoutique.json'] |
         ConvertFrom-Json
     if ($pluginManifest.InternalName -ne 'CrystariumBoutique' -or
         [string]$pluginManifest.AssemblyVersion -ne [string]$packageManifest.assemblyVersion -or
@@ -163,16 +165,45 @@ try {
         throw 'Packaged Dalamud manifest identity/version/API is inconsistent.'
     }
 
-    $pluginBytes = Read-EntryBytes -Entry $entryMap['CrystariumBoutique/CrystariumBoutique.dll']
+    $pluginBytes = Read-EntryBytes -Entry $entryMap['CrystariumBoutique.dll']
     $pluginHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($pluginBytes)).ToLowerInvariant()
     if ($pluginHash -ne $packageManifest.pluginAssemblySha256) {
         throw 'Packaged plugin DLL hash does not match PACKAGE-MANIFEST.json.'
     }
 
-    $depsText = Read-EntryText -Entry $entryMap['CrystariumBoutique/CrystariumBoutique.deps.json']
+    $depsText = Read-EntryText -Entry $entryMap['CrystariumBoutique.deps.json']
     foreach ($forbiddenName in $forbiddenNames) {
         if ($depsText.Contains($forbiddenName, [StringComparison]::OrdinalIgnoreCase)) {
             throw "Dependency manifest mentions forbidden dependency '$forbiddenName'."
+        }
+    }
+
+    $extractionRoot = Join-Path ([IO.Path]::GetTempPath()) "CrystariumBoutique-release-$([Guid]::NewGuid().ToString('N'))"
+    try {
+        [IO.Compression.ZipFile]::ExtractToDirectory($resolvedPackagePath, $extractionRoot)
+        $extractedAssemblyPath = Join-Path $extractionRoot 'CrystariumBoutique.dll'
+        $extractedManifestPath = Join-Path $extractionRoot 'CrystariumBoutique.json'
+        if (-not (Test-Path -LiteralPath $extractedAssemblyPath -PathType Leaf) -or
+            -not (Test-Path -LiteralPath $extractedManifestPath -PathType Leaf)) {
+            throw 'Dalamud installer compatibility failed: main DLL and manifest must exist at extraction root.'
+        }
+
+        $extractedManifest = Get-Content -Raw -LiteralPath $extractedManifestPath | ConvertFrom-Json
+        if ($extractedManifest.InternalName -ne 'CrystariumBoutique') {
+            throw "Extracted manifest InternalName '$($extractedManifest.InternalName)' is invalid."
+        }
+        if ([string]$extractedManifest.AssemblyVersion -ne [string]$packageManifest.assemblyVersion) {
+            throw 'Extracted manifest assembly version does not match PACKAGE-MANIFEST.json.'
+        }
+
+        $extractedAssemblyVersion = [Reflection.AssemblyName]::GetAssemblyName($extractedAssemblyPath).Version.ToString()
+        if ($extractedAssemblyVersion -ne [string]$packageManifest.assemblyVersion) {
+            throw "Extracted DLL assembly version '$extractedAssemblyVersion' does not match '$($packageManifest.assemblyVersion)'."
+        }
+    }
+    finally {
+        if (Test-Path -LiteralPath $extractionRoot) {
+            Remove-Item -LiteralPath $extractionRoot -Recurse -Force
         }
     }
 }

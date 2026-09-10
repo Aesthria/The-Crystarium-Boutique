@@ -2,6 +2,10 @@
 
 All notable changes to The Crystarium Boutique are recorded here. Entries under **Unreleased** describe the current development state and do not represent a published release.
 
+## [0.1.1] - 2026-09-10
+
+- Fixed the public release package layout so The Crystarium Boutique can be installed correctly through Dalamud's custom plugin repository.
+
 ## [0.1.0] - 2026-09-10
 
 ### Added

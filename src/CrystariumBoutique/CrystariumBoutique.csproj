@@ -3,9 +3,9 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <AssemblyName>CrystariumBoutique</AssemblyName>
     <RootNamespace>CrystariumBoutique</RootNamespace>
-    <Version>0.1.0</Version>
-    <AssemblyVersion>0.1.0.0</AssemblyVersion>
-    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.1</Version>
+    <AssemblyVersion>0.1.1.0</AssemblyVersion>
+    <FileVersion>0.1.1.0</FileVersion>
     <Description>Browse FFXIV's wardrobe like a boutique.</Description>
   </PropertyGroup>
   <ItemGroup>
