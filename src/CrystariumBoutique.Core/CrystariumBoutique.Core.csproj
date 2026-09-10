@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>CrystariumBoutique.Core</AssemblyName>
+    <RootNamespace>CrystariumBoutique.Core</RootNamespace>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,69 @@
+# Visual Studio, Rider, VS Code, and local IDE state
+.vs/
+.idea/
+.vscode/
+_ReSharper*/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# .NET build, package, publish, and test output
+**/[Bb]in/
+**/[Oo]bj/
+artifacts/
+publish/
+dist/
+TestResults/
+**/TestResults/
+BenchmarkDotNet.Artifacts/
+coverage/
+coverage.*
+*.coverage
+*.coveragexml
+*.trx
+*.nupkg
+*.snupkg
+.packages/
+.nuget/
+.dotnet/
+.dotnet-cli-home/
+
+# Dalamud local development and plugin staging output
+stage/
+staging/
+.dalamud/
+dev-plugin/
+dev-plugins/
+
+# Local task/specification state
+.codex-spec/
+
+# Temporary files, logs, dumps, and operating-system metadata
+tmp/
+temp/
+.tmp/
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+*.rej
+*.log
+*.dmp
+*.stackdump
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local environment and private signing material
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.pem
+*.key
+*.snk
+NuGet.Config.user

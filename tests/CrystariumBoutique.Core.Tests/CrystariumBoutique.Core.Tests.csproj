@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>CrystariumBoutique.Core.Tests</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.9.0" />
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\CrystariumBoutique.Core\CrystariumBoutique.Core.csproj" />
+    <ProjectReference Include="..\..\tools\CrystariumBoutique.AcquisitionGenerator\CrystariumBoutique.AcquisitionGenerator.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\CrystariumBoutique\acquisition-data\item-acquisition-supplement.json"
+          Link="Fixtures\item-acquisition-supplement.json"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\src\CrystariumBoutique\acquisition-data\item-availability-supplement.json"
+          Link="Fixtures\item-availability-supplement.json"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

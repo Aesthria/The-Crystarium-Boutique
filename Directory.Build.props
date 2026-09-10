@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <Authors>Aesthria</Authors>
+    <Copyright>Copyright © 2026 Aesthria</Copyright>
+    <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Aesthria/The-Crystarium-Boutique</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Aesthria/The-Crystarium-Boutique</RepositoryUrl>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <Deterministic>true</Deterministic>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <BoutiqueDalamudHome Condition="'$(DALAMUD_HOME)' != ''">$(DALAMUD_HOME)</BoutiqueDalamudHome>
+    <BoutiqueDalamudHome Condition="'$(BoutiqueDalamudHome)' == ''">$(APPDATA)\XIVLauncher\addon\Hooks\dev</BoutiqueDalamudHome>
+  </PropertyGroup>
+</Project>

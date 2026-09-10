@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest a focused improvement to The Crystarium Boutique.
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Explain the player problem first, then the smallest useful outcome. Do not include private character/account information.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Player problem
+      description: What is difficult or unavailable today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Suggested behavior
+      description: Describe the desired user-facing result without assuming a particular internal implementation.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: What have you tried, and what tradeoffs should be considered?
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Boutique browsing / filters
+        - Crystal Wardrobe / dyes
+        - Favorites
+        - Saved Designs / sharing / imports
+        - Acquisition information
+        - Themes / interface
+        - Accessibility
+        - Other
+    validations:
+      required: true

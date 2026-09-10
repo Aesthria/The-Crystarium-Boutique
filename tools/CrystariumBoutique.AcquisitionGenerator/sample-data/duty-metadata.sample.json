@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "duties": [
+    {
+      "contentFinderConditionId": 4,
+      "canonicalDutyName": "Sastasha",
+      "contentType": "Dungeons",
+      "difficulty": "Normal",
+      "expansion": "A Realm Reborn",
+      "series": "",
+      "tier": "",
+      "chestBossAssociations": []
+    },
+    {
+      "contentFinderConditionId": 59,
+      "canonicalDutyName": "the Bowl of Embers (Hard)",
+      "contentType": "Trials",
+      "difficulty": "Hard",
+      "expansion": "A Realm Reborn",
+      "series": "The Primals",
+      "tier": "",
+      "chestBossAssociations": []
+    },
+    {
+      "contentFinderConditionId": 65,
+      "canonicalDutyName": "the Howling Eye (Extreme)",
+      "contentType": "Trials",
+      "difficulty": "Extreme",
+      "expansion": "A Realm Reborn",
+      "series": "The Primals",
+      "tier": "",
+      "chestBossAssociations": []
+    },
+    {
+      "contentFinderConditionId": 93,
+      "canonicalDutyName": "the Binding Coil of Bahamut - Turn 1",
+      "contentType": "Raids",
+      "difficulty": "Normal Raid",
+      "expansion": "A Realm Reborn",
+      "series": "The Binding Coil of Bahamut",
+      "tier": "Binding Coil"
+    },
+    {
+      "contentFinderConditionId": 119,
+      "canonicalDutyName": "Alexander - The Burden of the Father (Savage)",
+      "contentType": "Raids",
+      "difficulty": "Savage",
+      "expansion": "Heavensward",
+      "series": "Alexander",
+      "tier": "Gordias",
+      "chestBossAssociations": []
+    },
+    {
+      "contentFinderConditionId": 866,
+      "canonicalDutyName": "Aglaia",
+      "contentType": "Raids",
+      "difficulty": "Alliance Raid",
+      "expansion": "Endwalker",
+      "series": "Myths of the Realm",
+      "tier": "Aglaia",
+      "chestBossAssociations": []
+    }
+  ]
+}

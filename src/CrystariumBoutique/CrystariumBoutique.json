@@ -1,0 +1,15 @@
+{
+  "Author": "Aesthria",
+  "Name": "The Crystarium Boutique",
+  "Punchline": "Browse FFXIV's wardrobe like a boutique.",
+  "Description": "Visually browse FFXIV equipment, preview items and dyes, use Crystal Wardrobe, organize Favorites and Designs, and view offline acquisition information.",
+  "ApplicableVersion": "any",
+  "Tags": [
+    "appearance",
+    "glamour",
+    "wardrobe",
+    "fashion",
+    "equipment",
+    "design"
+  ]
+}

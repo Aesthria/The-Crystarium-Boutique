@@ -1,0 +1,35 @@
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <AssemblyName>CrystariumBoutique</AssemblyName>
+    <RootNamespace>CrystariumBoutique</RootNamespace>
+    <Version>0.1.0-beta.1</Version>
+    <AssemblyVersion>0.1.0.1</AssemblyVersion>
+    <FileVersion>0.1.0.1</FileVersion>
+    <Description>Browse FFXIV's wardrobe like a boutique.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CrystariumBoutique.Core\CrystariumBoutique.Core.csproj" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(BoutiqueDalamudHome)\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\icon.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\equipment-slots.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\previous-item.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\crystal-wardrobe.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\unavailable-dye.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\crystarium-stained-glass.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\crystarium-item-frame-cornered.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\crystarium-gold-frames.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="images\favorite-badge.png" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="acquisition-data\item-acquisition-supplement.json"
+          Link="data\item-acquisition-supplement.json"
+          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="acquisition-data\item-availability-supplement.json"
+          Link="data\item-availability-supplement.json"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,73 @@
+name: Visual / UI issue
+description: Report clipping, scaling, readability, spacing, color, or theme problems.
+title: "[Visual] "
+labels: [visual]
+body:
+  - type: markdown
+    attributes:
+      value: Include a tightly cropped screenshot when possible, after removing private information.
+  - type: input
+    id: version
+    attributes:
+      label: Boutique version
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      options:
+        - The Crystarium Boutique
+        - Simple
+        - Simple Crystarium Boutique
+        - Multiple themes
+    validations:
+      required: true
+  - type: input
+    id: display
+    attributes:
+      label: Display and scale
+      description: Resolution, Windows scale, Dalamud global scale, Boutique UI scale, and Boutique window size.
+      placeholder: 2560x1440; Windows 100%; Dalamud 100%; Boutique 125%; approximately 1200x800
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Boutique grid / filters / paging
+        - Item tooltip
+        - Crystal Wardrobe
+        - Designs
+        - Settings
+        - Help / Info
+        - Title bar / tabs / frames
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What looks wrong?
+      description: Identify clipped, overlapping, undersized, oversized, low-contrast, or misaligned elements.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Preferred result
+      description: Describe the intended appearance or attach a marked-up reference.
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Redacted screenshot
+      description: Drag in a focused screenshot. Remove character/account data, chat, tokens, and private paths.
+  - type: checkboxes
+    id: reproducible
+    attributes:
+      label: Verification
+      options:
+        - label: I reproduced this after reopening Boutique at the display and scale values listed above.
+          required: true

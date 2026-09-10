@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "gameBuild": "2026.08.11.0000.0000",
+  "luminaVersion": "Lumina 7.0.0.0; Lumina.Excel 7.0.0.0",
+  "generatorVersion": "1.0.0",
+  "generatedAtUtc": "2026-09-02T04:46:30.6456794+00:00",
+  "upstreamSource": "XIVStats/Tracky ChestDropsV2",
+  "upstreamRevision": "97134b09bb13e062262fb3522f6835e0bd123e62",
+  "inputSha256": "SHA256:FAD04112CE586FF0238F4F2D52F469DBFF6B59AD85D4442DC297B5CDD28EE78E",
+  "upstreamDatasetSha256": "SHA256:BE02407329BD649E206B57133E6D0B614C22D13742C0BA27A99D91D401F439C8",
+  "licenses": [
+    {
+      "name": "MIT License - FFXIVGachaSpreadsheet/Tracky",
+      "url": "https://github.com/Infiziert90/FFXIVGachaSpreadsheet/blob/97134b09bb13e062262fb3522f6835e0bd123e62/LICENSE"
+    }
+  ],
+  "totalInputRecords": 6,
+  "acceptedRecords": 6,
+  "quarantinedRecords": 0,
+  "rejectedRecords": 0,
+  "rejectionReasons": {},
+  "quarantineReasons": {}
+}

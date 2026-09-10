@@ -1,0 +1,4 @@
+* text=auto eol=lf
+*.doc binary
+*.png binary
+*.dll binary

@@ -1,0 +1,164 @@
+[
+  {
+    "Id": 2,
+    "Name": "Dungeons",
+    "Expansions": [
+      {
+        "Id": 0,
+        "Name": "A Realm Reborn",
+        "Headers": [
+          {
+            "Id": 0,
+            "Name": "Dungeons",
+            "Duties": [
+              {
+                "Id": 4,
+                "Name": "Sastasha",
+                "Chests": {
+                  "7.55": [
+                    {
+                      "Records": 700,
+                      "Id": 94,
+                      "Name": "",
+                      "TerritoryId": 1036,
+                      "MapId": 31,
+                      "Rewards": [
+                        { "Id": 4206, "Amount": 189, "Total": 189, "Pct": 0.27, "Min": 1, "Max": 1 }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Trials",
+    "Expansions": [
+      {
+        "Id": 0,
+        "Name": "A Realm Reborn",
+        "Headers": [
+          {
+            "Id": 0,
+            "Name": "Trials",
+            "Duties": [
+              {
+                "Id": 59,
+                "Name": "The Bowl Of Embers (Hard)",
+                "Chests": {
+                  "7.55": [
+                    {
+                      "Records": 585,
+                      "Id": 202,
+                      "Name": "",
+                      "TerritoryId": 292,
+                      "MapId": 401,
+                      "Rewards": [
+                        { "Id": 2204, "Amount": 37, "Total": 37, "Pct": 0.063248, "Min": 1, "Max": 1 }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "Id": 65,
+                "Name": "The Howling Eye (Extreme)",
+                "Chests": {
+                  "7.55": [
+                    {
+                      "Records": 358,
+                      "Id": 225,
+                      "Name": "",
+                      "TerritoryId": 297,
+                      "MapId": 39,
+                      "Rewards": [
+                        { "Id": 4399, "Amount": 81, "Total": 81, "Pct": 0.226257, "Min": 1, "Max": 1 }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "Raids",
+    "Expansions": [
+      {
+        "Id": 0,
+        "Name": "Multiple",
+        "Headers": [
+          {
+            "Id": 0,
+            "Name": "Raids",
+            "Duties": [
+              {
+                "Id": 93,
+                "Name": "The Binding Coil Of Bahamut - Turn 1",
+                "Chests": {
+                  "7.55": [
+                    {
+                      "Records": 25,
+                      "Id": 218,
+                      "Name": "",
+                      "TerritoryId": 241,
+                      "MapId": 57,
+                      "Rewards": [
+                        { "Id": 4394, "Amount": 4, "Total": 4, "Pct": 0.16, "Min": 1, "Max": 1 }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "Id": 119,
+                "Name": "Alexander - The Burden Of The Father (Savage)",
+                "Chests": {
+                  "7.55": [
+                    {
+                      "Records": 37,
+                      "Id": 487,
+                      "Name": "",
+                      "TerritoryId": 452,
+                      "MapId": 240,
+                      "Rewards": [
+                        { "Id": 11521, "Amount": 4, "Total": 4, "Pct": 0.108108, "Min": 1, "Max": 1 }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "Id": 866,
+                "Name": "Aglaia",
+                "Chests": {
+                  "7.55": [
+                    {
+                      "Records": 60,
+                      "Id": 1454,
+                      "Name": "",
+                      "TerritoryId": 1054,
+                      "MapId": 755,
+                      "Rewards": [
+                        { "Id": 37140, "Amount": 17, "Total": 17, "Pct": 0.283333, "Min": 1, "Max": 1 }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

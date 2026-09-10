@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "gameBuild": "2026.08.11.0000.0000",
+  "luminaVersion": "Lumina 7.0.0.0; Lumina.Excel 7.0.0.0",
+  "generatorVersion": "2.0.0",
+  "generatedAtUtc": "2026-09-06T19:17:28.4393756+00:00",
+  "upstreamSource": "Critical-Impact/LuminaSupplemental",
+  "upstreamRevision": "e9bf1495bf8588d2cf21441ef03f0d9dfe0f790a",
+  "inputSha256": "SHA256:712F4EDEC18080CA21C95B972C9F78CC615BB577637DCB8F57437A237BCC39D6",
+  "upstreamDatasetSha256": "SHA256:712F4EDEC18080CA21C95B972C9F78CC615BB577637DCB8F57437A237BCC39D6",
+  "licenses": [
+    {
+      "name": "GPL-3.0-only",
+      "url": "https://github.com/Critical-Impact/LuminaSupplemental/blob/e9bf1495bf8588d2cf21441ef03f0d9dfe0f790a/LICENSE"
+    }
+  ],
+  "totalInputRecords": 31168,
+  "acceptedRecords": 8003,
+  "quarantinedRecords": 0,
+  "rejectedRecords": 6288,
+  "supersededRecords": 16877,
+  "rejectionReasons": {
+    "ConflictingLuminaRelationship": 136,
+    "InvalidContentFinderConditionId": 904,
+    "InvalidTreasureId": 19,
+    "MissingDungeonBossRelationship": 62,
+    "NonEquipmentExactItem": 5167
+  },
+  "quarantineReasons": {},
+  "boutiqueEquipmentItems": 28993,
+  "itemsWithDutyAcquisition": 5764,
+  "itemsWithExactBossAcquisition": 5306,
+  "itemsWithoutDutyAcquisition": 23229,
+  "bossDropRecords": 0,
+  "bossChestRecords": 7507,
+  "dutyChestRecords": 474,
+  "genericDutyDropRecords": 22,
+  "recordsByContentType": {
+    "Alliance Raid": 1135,
+    "Dungeon": 5612,
+    "Raid": 491,
+    "Treasure Hunt": 22,
+    "Trial": 743
+  },
+  "sourceFiles": {
+    "DungeonBoss.csv": "SHA256:627D1E2C3E1DE3030B71EC5D9827B2D5B4E17D642AAD889987B9CC46C00B978A",
+    "DungeonBossChest.csv": "SHA256:60A2B4B72BB4C1C550AEE177DBB95C2A1212FF08A14DFFDE868C6719FACBA5D5",
+    "DungeonBossDrop.csv": "SHA256:85CB4D5E848F2958CDC98F6888E3CDA77F1065E05ADE4B354E2EBC78E3B99049",
+    "DungeonChest.csv": "SHA256:28706C18F944D2ABABEA1E38F017E4DBA08DF809167FBC6CB0F9352668459700",
+    "DungeonChestItem.csv": "SHA256:6B6444AD9B90F860EC02D780FC04F1461C7364285CA9EAEB9815E1E0E6F2BB6B",
+    "DungeonDrop.csv": "SHA256:35B203E23F14D1D7F0E93A9733BF1415EDD4B4E7C1667E1CFDC412B4C7D3B1A0"
+  }
+}

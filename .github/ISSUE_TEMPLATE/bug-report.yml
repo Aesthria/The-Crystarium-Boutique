@@ -1,0 +1,110 @@
+name: Bug report
+description: Report a reproducible functional, state-restoration, loading, or performance problem.
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for testing. Remove character names, account details, tokens, and private paths from every attachment.
+  - type: input
+    id: version
+    attributes:
+      label: Boutique version
+      description: Copy the version shown in Boutique's Info tab or package name.
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Loading / commands
+        - Item browsing / filters
+        - Preview / reset / restoration
+        - GPose handoff
+        - Dyes
+        - Designs / import / export
+        - Crystal Wardrobe
+        - Tooltips / acquisition information
+        - Performance / crash
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description: Give the shortest numbered sequence that reproduces the issue. Include slot, job, Item ID, GPose, and combat state when relevant.
+      placeholder: "1. Open Boutique with /CB\n2. Select ...\n3. Observe ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Relevant environment
+      description: Dalamud version, theme, Boutique UI scale, window size, job, Glamourer/Penumbra versions, and other relevant state.
+  - type: dropdown
+    id: glamourer
+    attributes:
+      label: Was Glamourer enabled?
+      options:
+        - "Yes"
+        - "No"
+        - It was disabled or re-enabled during the test
+    validations:
+      required: true
+  - type: dropdown
+    id: penumbra
+    attributes:
+      label: Was Penumbra enabled?
+      options:
+        - "Yes"
+        - "No"
+        - It was disabled or re-enabled during the test
+    validations:
+      required: true
+  - type: checkboxes
+    id: game-state
+    attributes:
+      label: When did the issue occur?
+      description: Select every state that applies.
+      options:
+        - label: Normal world
+        - label: Zoning
+        - label: Combat
+        - label: GPose
+        - label: Logout or login
+        - label: Character change
+  - type: input
+    id: item
+    attributes:
+      label: Item name and Item ID
+      description: Required for preview, slot, dye, missing-item, and acquisition-source reports; otherwise enter Not applicable.
+      placeholder: Augmented Example Hat — Item ID 12345
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or redacted log excerpt
+      description: Drag in focused evidence only. Do not upload complete config folders, unredacted logs, or crash dumps.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy check
+      options:
+        - label: I removed character/account data, tokens, private paths, chat, and unrelated plugin information.
+          required: true
