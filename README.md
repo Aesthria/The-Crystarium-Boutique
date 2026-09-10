@@ -94,7 +94,7 @@ The offline acquisition supplement is generated deterministically from pinned, r
 
 ## Support
 
-Consult [Troubleshooting](docs/TROUBLESHOOTING.md) first. Once the repository is public, reproducible bugs, incorrect item/acquisition data, visual issues, and feature requests can be filed with the provided GitHub issue forms. See [Support](SUPPORT.md) and [Security Policy](SECURITY.md).
+Consult [Troubleshooting](docs/TROUBLESHOOTING.md) first. Reproducible bugs, incorrect item/acquisition data, visual issues, and feature requests can be filed with the provided GitHub issue forms. See [Support](SUPPORT.md) and [Security Policy](SECURITY.md).
 
 ## Building from source
 
