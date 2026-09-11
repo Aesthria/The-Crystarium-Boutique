@@ -3,7 +3,9 @@
   "Name": "The Crystarium Boutique",
   "Punchline": "Browse FFXIV's wardrobe like a boutique.",
   "Description": "Visually browse FFXIV equipment, preview items and dyes, use Crystal Wardrobe, organize Favorites and Designs, and view offline acquisition information.",
+  "AssemblyVersion": "0.1.2.0",
   "ApplicableVersion": "any",
+  "IconUrl": "https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png",
   "Tags": [
     "appearance",
     "glamour",

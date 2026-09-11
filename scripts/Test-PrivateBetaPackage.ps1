@@ -205,6 +205,11 @@ try {
     if ([string]$pluginManifest.AssemblyVersion -ne [string]$packageManifest.assemblyVersion) {
         throw "Dalamud manifest AssemblyVersion '$($pluginManifest.AssemblyVersion)' does not match package manifest '$($packageManifest.assemblyVersion)'."
     }
+    $expectedIconUrl = 'https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png'
+    if ([string]::IsNullOrWhiteSpace([string]$pluginManifest.IconUrl) -or
+        [string]$pluginManifest.IconUrl -ne $expectedIconUrl) {
+        throw 'Packaged Dalamud manifest IconUrl is missing or inconsistent with repo.json.'
+    }
 
     $dependencyManifestText = Read-ZipEntryText `
         -Entry $entryMap['CrystariumBoutique/CrystariumBoutique.deps.json']

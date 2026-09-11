@@ -164,6 +164,11 @@ try {
         $pluginManifest.DalamudApiLevel -ne 15) {
         throw 'Packaged Dalamud manifest identity/version/API is inconsistent.'
     }
+    $expectedIconUrl = 'https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png'
+    if ([string]::IsNullOrWhiteSpace([string]$pluginManifest.IconUrl) -or
+        [string]$pluginManifest.IconUrl -ne $expectedIconUrl) {
+        throw 'Packaged Dalamud manifest IconUrl is missing or inconsistent with repo.json.'
+    }
 
     $pluginBytes = Read-EntryBytes -Entry $entryMap['CrystariumBoutique.dll']
     $pluginHash = [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($pluginBytes)).ToLowerInvariant()

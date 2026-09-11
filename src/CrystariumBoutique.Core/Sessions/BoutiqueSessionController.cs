@@ -249,12 +249,6 @@ public sealed class BoutiqueSessionController
         var historyEntry = equipmentPreviewHistory[^1];
         var targetEquipment = historyEntry.Equipment;
         var previousPreview = Session.PreviewAppearance;
-        var resetResult = appearanceService.RevertToGame();
-        if (!resetResult.IsSuccess)
-        {
-            return resetResult;
-        }
-
         var restoredEquipment = targetEquipment
             .Select(equipment => equipment with
             {
@@ -263,36 +257,41 @@ public sealed class BoutiqueSessionController
                     equipment.Appearance,
                     equipment.DyeChannelCount),
             })
+            .OrderBy(equipment => equipment.Slot)
             .ToArray();
-        foreach (var equipment in restoredEquipment)
+        var restoredBySlot = restoredEquipment.ToDictionary(equipment => equipment.Slot);
+        var changedSlots = previewEquipment.Keys
+            .Union(restoredBySlot.Keys)
+            .OrderBy(slot => slot)
+            .Where(slot => !HasEquivalentAppearance(slot, restoredBySlot))
+            .ToArray();
+
+        foreach (var slot in changedSlots)
         {
-            var applyResult = appearanceService.ApplyEquipment(equipment.Slot, equipment.Appearance);
+            var appearance = restoredBySlot.TryGetValue(slot, out var equipment)
+                ? equipment.Appearance
+                : EmptyAppearance;
+            var applyResult = appearanceService.ApplyEquipment(slot, appearance);
             if (!applyResult.IsSuccess)
             {
                 return RollBackMutation(previousPreview, applyResult.Error!);
             }
         }
 
-        foreach (var clearedSlot in GetClearedOriginalSlots(restoredEquipment))
+        var targetVisorState = historyEntry.VisorState;
+        var visorChanged = targetVisorState.HasValue
+            && targetVisorState != previewVisorState;
+        if (visorChanged)
         {
-            var clearResult = appearanceService.ApplyEquipment(clearedSlot, EmptyAppearance);
-            if (!clearResult.IsSuccess)
-            {
-                return RollBackMutation(previousPreview, clearResult.Error!);
-            }
-        }
-
-        if (historyEntry.VisorState.HasValue)
-        {
-            var visorResult = ApplyVisorState(historyEntry.VisorState.Value);
+            var visorResult = ApplyVisorState(targetVisorState.GetValueOrDefault());
             if (!visorResult.IsSuccess)
             {
                 return RollBackMutation(previousPreview, visorResult.Error!);
             }
         }
 
-        var updateResult = restoredEquipment.Length == 0
-            ? Session.UpdatePreview(Session.OriginalAppearance!)
+        var updateResult = changedSlots.Length == 0 && !visorChanged
+            ? Result.Ok
             : CaptureUpdatedPreview();
         if (!updateResult.IsSuccess)
         {
@@ -310,6 +309,33 @@ public sealed class BoutiqueSessionController
         equipmentPreviewHistory.RemoveAt(equipmentPreviewHistory.Count - 1);
         return Result.Ok;
     }
+
+    private bool HasEquivalentAppearance(
+        EquipmentSlot slot,
+        Dictionary<EquipmentSlot, PreviewEquipmentState> targetEquipment)
+    {
+        var hasCurrent = previewEquipment.TryGetValue(slot, out var current);
+        var hasTarget = targetEquipment.TryGetValue(slot, out var target);
+        if (!hasCurrent || !hasTarget)
+        {
+            return hasCurrent == hasTarget;
+        }
+
+        return AreEquivalentAppearances(current!.Appearance, target!.Appearance);
+    }
+
+    private static bool AreEquivalentAppearances(
+        AppearanceSelection current,
+        AppearanceSelection target)
+        => current.AppearanceId == target.AppearanceId
+            && current.SourceItemId == target.SourceItemId
+            && GetStain(current, 0) == GetStain(target, 0)
+            && GetStain(current, 1) == GetStain(target, 1);
+
+    private static StainId GetStain(AppearanceSelection appearance, int channel)
+        => channel < appearance.Stains.Length
+            ? appearance.Stains[channel]
+            : StainId.None;
 
     public Result PreviewDye(EquipmentSlot slot, byte dyeChannel, StainId stain)
     {

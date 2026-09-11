@@ -814,7 +814,9 @@ public sealed class BoutiqueSessionControllerTests
         Assert.True(controller.TryGetPreviewEquipment(EquipmentSlot.Head, out var restored));
         Assert.Equal("First Hat", restored.DisplayName);
         Assert.Equal((uint)101, restored.Appearance.SourceItemId);
-        Assert.Equal(1, service.RevertCallCount);
+        Assert.Equal(0, service.RevertCallCount);
+        var application = Assert.Single(service.EquipmentApplications.Skip(2));
+        Assert.Equal(EquipmentSlot.Head, application.Slot);
         Assert.Equal((uint)101, service.EquipmentApplications[^1].Appearance.SourceItemId);
     }
 
@@ -833,8 +835,10 @@ public sealed class BoutiqueSessionControllerTests
         Assert.True(result.IsSuccess);
         Assert.False(controller.CanUndoEquipmentPreview);
         Assert.Empty(controller.PreviewEquipmentBySlot);
-        Assert.Equal(service.Snapshot, controller.Session.PreviewAppearance);
-        Assert.Equal(1, service.RevertCallCount);
+        Assert.Equal(0, service.RevertCallCount);
+        var application = Assert.Single(service.EquipmentApplications.Skip(1));
+        Assert.Equal(EquipmentSlot.Body, application.Slot);
+        Assert.Equal((uint)0, application.Appearance.SourceItemId);
     }
 
     [Fact]
@@ -904,17 +908,229 @@ public sealed class BoutiqueSessionControllerTests
             AppearanceSelection.WithoutStains(new AppearanceId(109), 109),
             displayName: "Linked Weapon",
             hasLinkedOffHandComponent: true);
+        var revertsBeforeUndo = service.RevertCallCount;
         service.EquipmentApplications.Clear();
 
         var result = controller.UndoLastEquipmentPreview();
 
         Assert.True(result.IsSuccess);
-        var application = Assert.Single(service.EquipmentApplications);
-        Assert.Equal(EquipmentSlot.MainHand, application.Slot);
-        Assert.Equal((uint)108, application.Appearance.SourceItemId);
+        Assert.Equal(revertsBeforeUndo, service.RevertCallCount);
+        Assert.Collection(
+            service.EquipmentApplications,
+            application =>
+            {
+                Assert.Equal(EquipmentSlot.MainHand, application.Slot);
+                Assert.Equal((uint)108, application.Appearance.SourceItemId);
+            },
+            application =>
+            {
+                Assert.Equal(EquipmentSlot.OffHand, application.Slot);
+                Assert.Equal((uint)0, application.Appearance.SourceItemId);
+            });
         Assert.True(controller.TryGetPreviewEquipment(EquipmentSlot.MainHand, out var restored));
         Assert.Equal("Standalone Weapon", restored.DisplayName);
         Assert.False(controller.TryGetPreviewEquipment(EquipmentSlot.OffHand, out _));
+    }
+
+    [Fact]
+    public void UndoStandaloneWeaponRestoresOnlyPreviousMainHandWithoutFullRevert()
+    {
+        var service = new FakeAppearanceService();
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(112), 112));
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(113), 113));
+        service.EquipmentApplications.Clear();
+
+        var result = controller.UndoLastEquipmentPreview();
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(0, service.RevertCallCount);
+        var application = Assert.Single(service.EquipmentApplications);
+        Assert.Equal(EquipmentSlot.MainHand, application.Slot);
+        Assert.Equal((uint)112, application.Appearance.SourceItemId);
+    }
+
+    [Fact]
+    public void UndoLinkedWeaponRestoresBothPriorLinkedComponentsWithoutFullRevert()
+    {
+        var service = new FakeAppearanceService();
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(110), 110),
+            displayName: "First Linked Weapon",
+            hasLinkedOffHandComponent: true);
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(111), 111),
+            displayName: "Second Linked Weapon",
+            hasLinkedOffHandComponent: true);
+        var revertsBeforeUndo = service.RevertCallCount;
+        service.EquipmentApplications.Clear();
+
+        var result = controller.UndoLastEquipmentPreview();
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(revertsBeforeUndo, service.RevertCallCount);
+        Assert.Collection(
+            service.EquipmentApplications,
+            application =>
+            {
+                Assert.Equal(EquipmentSlot.MainHand, application.Slot);
+                Assert.Equal((uint)110, application.Appearance.SourceItemId);
+            },
+            application =>
+            {
+                Assert.Equal(EquipmentSlot.OffHand, application.Slot);
+                Assert.Equal((uint)110, application.Appearance.SourceItemId);
+            });
+        Assert.Equal(
+            (uint)110,
+            controller.PreviewEquipmentBySlot[EquipmentSlot.MainHand].Appearance.SourceItemId);
+        Assert.Equal(
+            (uint)110,
+            controller.PreviewEquipmentBySlot[EquipmentSlot.OffHand].Appearance.SourceItemId);
+    }
+
+    [Fact]
+    public void UndoMixedPreviewMutatesOnlyTheLastChangedSlot()
+    {
+        var service = new FakeAppearanceService();
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(120), 120));
+        controller.PreviewEquipment(
+            EquipmentSlot.Head,
+            AppearanceSelection.WithoutStains(new AppearanceId(121), 121));
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(122), 122));
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(123), 123));
+        service.EquipmentApplications.Clear();
+
+        var result = controller.UndoLastEquipmentPreview();
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(0, service.RevertCallCount);
+        var application = Assert.Single(service.EquipmentApplications);
+        Assert.Equal(EquipmentSlot.Body, application.Slot);
+        Assert.Equal((uint)120, application.Appearance.SourceItemId);
+        Assert.Equal(
+            (uint)121,
+            controller.PreviewEquipmentBySlot[EquipmentSlot.Head].Appearance.SourceItemId);
+        Assert.Equal(
+            (uint)122,
+            controller.PreviewEquipmentBySlot[EquipmentSlot.MainHand].Appearance.SourceItemId);
+    }
+
+    [Fact]
+    public void UndoPreservesPersistentDyeOverrideOnRestoredItem()
+    {
+        var service = new FakeAppearanceService();
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(130), 130),
+            dyeChannelCount: 2);
+        controller.PreviewDye(EquipmentSlot.Body, 0, new StainId(17));
+        controller.PreviewDye(EquipmentSlot.Body, 1, new StainId(42));
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(131), 131),
+            dyeChannelCount: 2);
+        service.EquipmentApplications.Clear();
+
+        var result = controller.UndoLastEquipmentPreview();
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(0, service.RevertCallCount);
+        var application = Assert.Single(service.EquipmentApplications);
+        Assert.Equal((uint)130, application.Appearance.SourceItemId);
+        Assert.Equal([new StainId(17), new StainId(42)], application.Appearance.Stains);
+    }
+
+    [Fact]
+    public void FailedMultiSlotUndoRollsBackWithoutPoppingHistory()
+    {
+        var service = new FakeAppearanceService();
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(140), 140),
+            hasLinkedOffHandComponent: true);
+        controller.PreviewEquipment(
+            EquipmentSlot.MainHand,
+            AppearanceSelection.WithoutStains(new AppearanceId(141), 141),
+            hasLinkedOffHandComponent: true);
+        var previousPreview = controller.Session.PreviewAppearance;
+        var revertsBeforeUndo = service.RevertCallCount;
+        service.FailOnEquipmentCall = service.ApplyEquipmentCallCount + 2;
+
+        var result = controller.UndoLastEquipmentPreview();
+
+        Assert.False(result.IsSuccess);
+        Assert.True(controller.CanUndoEquipmentPreview);
+        Assert.Equal(revertsBeforeUndo, service.RevertCallCount);
+        Assert.Equal(previousPreview, Assert.Single(service.AppliedSnapshots));
+        Assert.Equal(
+            (uint)141,
+            controller.PreviewEquipmentBySlot[EquipmentSlot.MainHand].Appearance.SourceItemId);
+        Assert.Equal(
+            (uint)141,
+            controller.PreviewEquipmentBySlot[EquipmentSlot.OffHand].Appearance.SourceItemId);
+    }
+
+    [Fact]
+    public void MultipleUndosRestoreExactlyOneEquipmentHistoryEntryAtATime()
+    {
+        var service = new FakeAppearanceService
+        {
+            Snapshot = AppearanceSnapshot.Create(
+                "original",
+                "test",
+                equipment:
+                [
+                    new CapturedEquipmentState(
+                        EquipmentSlot.Body,
+                        150,
+                        [StainId.None, StainId.None]),
+                ]),
+        };
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(151), 151));
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(152), 152));
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(153), 153));
+        service.EquipmentApplications.Clear();
+
+        Assert.True(controller.UndoLastEquipmentPreview().IsSuccess);
+        Assert.Equal((uint)152, controller.PreviewEquipmentBySlot[EquipmentSlot.Body].Appearance.SourceItemId);
+        Assert.True(controller.UndoLastEquipmentPreview().IsSuccess);
+        Assert.Equal((uint)151, controller.PreviewEquipmentBySlot[EquipmentSlot.Body].Appearance.SourceItemId);
+        Assert.True(controller.UndoLastEquipmentPreview().IsSuccess);
+        Assert.Equal((uint)150, controller.PreviewEquipmentBySlot[EquipmentSlot.Body].Appearance.SourceItemId);
+
+        Assert.False(controller.CanUndoEquipmentPreview);
+        Assert.Equal(0, service.RevertCallCount);
+        Assert.Equal([152u, 151u, 150u], service.EquipmentApplications.Select(a => a.Appearance.SourceItemId));
     }
 
     [Fact]
@@ -1029,6 +1245,7 @@ public sealed class BoutiqueSessionControllerTests
 
         Assert.True(result.IsSuccess);
         Assert.False(controller.CanUndoEquipmentPreview);
+        Assert.Equal(0, service.RevertCallCount);
         Assert.True(controller.TryGetPreviewEquipment(EquipmentSlot.MainHand, out var mainHand));
         Assert.Equal((uint)50001, mainHand.Appearance.SourceItemId);
         Assert.Equal(new StainId(3), mainHand.GetStain(0));
@@ -2096,6 +2313,29 @@ public sealed class BoutiqueSessionControllerTests
 
         Assert.True(result.IsSuccess);
         Assert.Equal([false, true, false], service.VisorStates);
+        Assert.Equal(0, service.RevertCallCount);
+    }
+
+    [Fact]
+    public void UndoDoesNotReapplyUnchangedVisorState()
+    {
+        var service = new FakeAppearanceService();
+        var controller = new BoutiqueSessionController(service);
+        controller.Open();
+        controller.PreviewEquipment(
+            EquipmentSlot.Head,
+            AppearanceSelection.WithoutStains(new AppearanceId(44820), 44820),
+            visorState: false);
+        controller.PreviewEquipment(
+            EquipmentSlot.Body,
+            AppearanceSelection.WithoutStains(new AppearanceId(44821), 44821));
+        service.VisorStates.Clear();
+
+        var result = controller.UndoLastEquipmentPreview();
+
+        Assert.True(result.IsSuccess);
+        Assert.Empty(service.VisorStates);
+        Assert.Equal(0, service.RevertCallCount);
     }
 
     private static BoutiqueLoadout CreateLoadout(params LoadoutEquipmentState[] equipment)

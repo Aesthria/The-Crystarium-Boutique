@@ -2,6 +2,11 @@
 
 All notable changes to The Crystarium Boutique are recorded here. Entries under **Unreleased** describe the current development state and do not represent a published release.
 
+## [0.1.2] - 2026-09-11
+
+- Fixed Revert to Last Item so it restores the previous Boutique selection directly without briefly reverting the entire character.
+- Fixed the plugin icon disappearing from Dalamud after installation.
+
 ## [0.1.1] - 2026-09-10
 
 - Fixed the public release package layout so The Crystarium Boutique can be installed correctly through Dalamud's custom plugin repository.
