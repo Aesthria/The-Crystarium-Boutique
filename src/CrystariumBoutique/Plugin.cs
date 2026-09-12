@@ -33,6 +33,9 @@ public sealed class Plugin : IDalamudPlugin
     private readonly IContextAwareAppearanceService appearanceService;
     private readonly IPenumbraService penumbraService;
     private readonly PenumbraRedrawService? penumbraServiceLifetime;
+    private readonly IDependencyAvailabilityRefresher? appearanceDependency;
+    private readonly IDependencyAvailabilityRefresher? penumbraDependency;
+    private readonly DependencyRecoveryCoordinator dependencyRecovery;
     private readonly EorzeaCollectionImportService eorzeaCollectionImportService;
     private readonly BoutiqueSessionController sessionController;
     private readonly EquipmentBrowserController browser;
@@ -73,11 +76,12 @@ public sealed class Plugin : IDalamudPlugin
         pluginInterface.UiBuilder.DisableGposeUiHide = true;
         try
         {
-            var redrawService = new PenumbraRedrawService(
-                new PenumbraIpcClient(pluginInterface),
-                pluginLog);
+            var redrawService = IntegrationAdapterFactory.Create(
+                () => new PenumbraIpcClient(pluginInterface),
+                ipcClient => new PenumbraRedrawService(ipcClient, pluginLog));
             penumbraService = redrawService;
             penumbraServiceLifetime = redrawService;
+            penumbraDependency = redrawService;
         }
         catch (Exception exception)
         {
@@ -105,15 +109,19 @@ public sealed class Plugin : IDalamudPlugin
         var catalogError = catalogResult.Error?.ToString();
         try
         {
-            appearanceService = new GlamourerAppearanceService(
-                new GlamourerIpcClient(pluginInterface),
-                penumbraService,
-                pluginLog,
-                clientState,
-                targetManager,
-                playerState,
-                objectTable,
-                catalog);
+            var glamourerService = IntegrationAdapterFactory.Create(
+                () => new GlamourerIpcClient(pluginInterface),
+                ipcClient => new GlamourerAppearanceService(
+                    ipcClient,
+                    penumbraService,
+                    pluginLog,
+                    clientState,
+                    targetManager,
+                    playerState,
+                    objectTable,
+                    catalog));
+            appearanceService = glamourerService;
+            appearanceDependency = glamourerService;
         }
         catch (Exception exception)
         {
@@ -122,6 +130,9 @@ public sealed class Plugin : IDalamudPlugin
                 "Boutique could not initialize its Glamourer IPC adapter and will remain browse-only.");
             appearanceService = new UnavailableAppearanceService();
         }
+        dependencyRecovery = new DependencyRecoveryCoordinator(
+            appearanceDependency,
+            penumbraDependency);
         var itemRarityColors = new ItemRarityColorResolver(dataManager);
         var stainCatalogResult = new LuminaStainCatalogLoader(dataManager).Load();
         var stainCatalog = stainCatalogResult.Value?.Catalog ?? StainCatalog.Empty;
@@ -350,6 +361,8 @@ public sealed class Plugin : IDalamudPlugin
             return;
         }
 
+        dependencyRecovery.RefreshForOpen();
+        HandleAppearanceDependencyTransition();
         RefreshActiveClassJob();
 
         if (sessionController.Session.State == BoutiqueSessionState.RestoreFailed)
@@ -390,6 +403,7 @@ public sealed class Plugin : IDalamudPlugin
 
     private void DrawUi()
     {
+        dependencyRecovery.ProbeIfDue();
         HandleAppearanceDependencyTransition();
         HandleGposeTransition();
         if (IsCombatBlocked())

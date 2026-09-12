@@ -16,7 +16,8 @@ namespace CrystariumBoutique.Integrations;
 internal sealed class GlamourerAppearanceService :
     IContextAwareAppearanceService,
     IVisorAppearanceService,
-    ILocalPlayerGearsetFinalizationSource
+    ILocalPlayerGearsetFinalizationSource,
+    IDependencyAvailabilityRefresher
 {
     private const uint NoLockKey = 0;
     private const string SnapshotFormat = "Glamourer.Base64";
@@ -56,13 +57,12 @@ internal sealed class GlamourerAppearanceService :
         this.playerState = playerState ?? throw new ArgumentNullException(nameof(playerState));
         this.objectTable = objectTable ?? throw new ArgumentNullException(nameof(objectTable));
         this.itemRepository = itemRepository ?? throw new ArgumentNullException(nameof(itemRepository));
-        RefreshLocalPlayerIdentity();
 
-        ipcClient.ProviderInitialized += DetectDependency;
+        ipcClient.ProviderInitialized += HandleDependencyInitialized;
         ipcClient.ProviderDisposed += HandleDependencyDisposed;
         ipcClient.StateFinalized += HandleStateFinalized;
 
-        DetectDependency();
+        RefreshAvailability();
     }
 
     public bool IsAvailable => Status == DependencyStatus.Available;
@@ -74,6 +74,53 @@ internal sealed class GlamourerAppearanceService :
     public event Action? LocalPlayerGearsetFinalized;
 
     public event Action? LocalPlayerGameStateReverted;
+
+    public bool RefreshAvailability()
+    {
+        if (disposed)
+        {
+            return false;
+        }
+
+        var previousStatus = Status;
+        var previousVersion = DetectedVersion;
+        var availability = ipcClient.DetectAvailability();
+        Status = availability.Status;
+        DetectedVersion = availability.Version;
+
+        var changed = previousStatus != Status
+            || !string.Equals(previousVersion, DetectedVersion, StringComparison.Ordinal);
+        if (!changed)
+        {
+            return false;
+        }
+
+        switch (availability.Status)
+        {
+            case DependencyStatus.Available:
+                pluginLog.Information(
+                    previousStatus == DependencyStatus.Unknown
+                        ? "Glamourer API {DetectedVersion} detected; capture, equipment/dye preview, and restoration are available."
+                        : "Glamourer API {DetectedVersion} detected after startup; Boutique appearance integration is now available.",
+                    DetectedVersion ?? "unknown");
+                break;
+            case DependencyStatus.Incompatible:
+                pluginLog.Warning(
+                    "Glamourer API {DetectedVersion} is incompatible with Boutique's verified IPC contract: {Detail}",
+                    DetectedVersion ?? "unknown",
+                    availability.Detail ?? "One or more required endpoints are unavailable.");
+                break;
+            default:
+                pluginLog.Warning(
+                    previousStatus == DependencyStatus.Unknown
+                        ? "Glamourer was not available at Boutique startup; waiting for its IPC provider. {Detail}"
+                        : "Glamourer became unavailable; Boutique appearance integration is waiting for its IPC provider. {Detail}",
+                    availability.Detail ?? string.Empty);
+                break;
+        }
+
+        return true;
+    }
 
     public void PrepareForContextTransition()
         => ReleaseAppearanceTarget();
@@ -611,44 +658,21 @@ internal sealed class GlamourerAppearanceService :
         ReleaseAppearanceTarget();
         ipcClient.StateFinalized -= HandleStateFinalized;
         ipcClient.ProviderDisposed -= HandleDependencyDisposed;
-        ipcClient.ProviderInitialized -= DetectDependency;
+        ipcClient.ProviderInitialized -= HandleDependencyInitialized;
         ipcClient.Dispose();
     }
 
-    private void DetectDependency()
+    private void HandleDependencyInitialized()
+        => RefreshAvailability();
+
+    private void HandleDependencyDisposed()
     {
         if (disposed)
         {
             return;
         }
 
-        var availability = ipcClient.DetectAvailability();
-        Status = availability.Status;
-        DetectedVersion = availability.Version;
-        switch (availability.Status)
-        {
-            case DependencyStatus.Available:
-                pluginLog.Information(
-                    "Glamourer API {DetectedVersion} detected; capture, equipment/dye preview, and restoration are available.",
-                    DetectedVersion ?? "unknown");
-                break;
-            case DependencyStatus.Incompatible:
-                pluginLog.Warning(
-                    "Glamourer API {DetectedVersion} is incompatible with Boutique's verified IPC contract: {Detail}",
-                    DetectedVersion ?? "unknown",
-                    availability.Detail ?? "One or more required endpoints are unavailable.");
-                break;
-            default:
-                pluginLog.Warning(
-                    "Glamourer IPC is unavailable; the Boutique will remain browse-only. {Detail}",
-                    availability.Detail ?? string.Empty);
-                break;
-        }
-    }
-
-    private void HandleDependencyDisposed()
-    {
-        if (disposed)
+        if (Status == DependencyStatus.Unavailable && DetectedVersion is null)
         {
             return;
         }

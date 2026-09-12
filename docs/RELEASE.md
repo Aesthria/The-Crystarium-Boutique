@@ -17,7 +17,7 @@ The stable entry intentionally omits all testing-channel fields. `DownloadLinkIn
 
 The scripts derive the four-part CLR/Dalamud assembly version as `major.minor.patch.N` for an RC and `major.minor.patch.0` for a final release. An RC used only for infrastructure testing must never be published if its numeric assembly version could conflict with a later stable release.
 
-The checked-in runtime is `0.1.2`, with numeric assembly/file version `0.1.2.0` and the neutral `v0.1.2` UI label.
+The checked-in runtime is `0.1.3`, with numeric assembly/file version `0.1.3.0` and the neutral `v0.1.3` UI label.
 
 ## Local dry run
 

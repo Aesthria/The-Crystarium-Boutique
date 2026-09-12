@@ -48,6 +48,7 @@ if ($entry.Author -ne 'Aesthria' -or
     $entry.InternalName -ne 'CrystariumBoutique' -or
     $entry.ApplicableVersion -ne 'any' -or
     $entry.DalamudApiLevel -ne 15 -or
+    $entry.LoadPriority -ne -100 -or
     $entry.IsHide -ne $false -or
     $entry.IsTestingExclusive -ne $false) {
     throw 'Repository entry identity/channel/API values are invalid.'

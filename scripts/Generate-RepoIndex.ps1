@@ -79,6 +79,7 @@ $entry = [pscustomobject][ordered]@{
     RepoUrl = 'https://github.com/Aesthria/The-Crystarium-Boutique'
     ApplicableVersion = 'any'
     DalamudApiLevel = [int]$packageManifest.dalamudApiLevel
+    LoadPriority = -100
     DownloadLinkInstall = $releaseUrl
     DownloadLinkUpdate = $releaseUrl
     IconUrl = 'https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png'

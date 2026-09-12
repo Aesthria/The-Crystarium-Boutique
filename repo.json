@@ -5,12 +5,13 @@
     "Punchline": "Browse FFXIV's wardrobe like a boutique.",
     "Description": "Browse FFXIV equipment like a boutique, preview items and dyes instantly, organize Favorites and Designs, use the Crystal Wardrobe, and view offline acquisition information.",
     "InternalName": "CrystariumBoutique",
-    "AssemblyVersion": "0.1.2.0",
+    "AssemblyVersion": "0.1.3.0",
     "RepoUrl": "https://github.com/Aesthria/The-Crystarium-Boutique",
     "ApplicableVersion": "any",
     "DalamudApiLevel": 15,
-    "DownloadLinkInstall": "https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.2/CrystariumBoutique-0.1.2.zip",
-    "DownloadLinkUpdate": "https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.2/CrystariumBoutique-0.1.2.zip",
+    "LoadPriority": -100,
+    "DownloadLinkInstall": "https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.3/CrystariumBoutique-0.1.3.zip",
+    "DownloadLinkUpdate": "https://github.com/Aesthria/The-Crystarium-Boutique/releases/download/v0.1.3/CrystariumBoutique-0.1.3.zip",
     "IconUrl": "https://raw.githubusercontent.com/Aesthria/The-Crystarium-Boutique/main/src/CrystariumBoutique/images/icon.png",
     "Tags": [
       "appearance",
@@ -20,7 +21,7 @@
       "equipment",
       "design"
     ],
-    "Changelog": "v0.1.2\n- Fixed Revert to Last Item so it restores the previous Boutique selection directly without briefly reverting the entire character.\n- Fixed the plugin icon disappearing from Dalamud after installation.",
+    "Changelog": "v0.1.3\n- Fixed startup dependency detection so the Boutique automatically connects to Glamourer when it finishes loading after TCB.\n- Improved Glamourer and optional Penumbra unload/reload recovery without requiring the Boutique plugin to be restarted.",
     "IsHide": false,
     "IsTestingExclusive": false
   }

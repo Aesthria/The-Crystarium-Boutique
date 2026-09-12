@@ -2,6 +2,11 @@
 
 All notable changes to The Crystarium Boutique are recorded here. Entries under **Unreleased** describe the current development state and do not represent a published release.
 
+## [0.1.3] - 2026-09-12
+
+- Fixed startup dependency detection so the Boutique automatically connects to Glamourer when it finishes loading after TCB.
+- Improved Glamourer and optional Penumbra unload/reload recovery without requiring the Boutique plugin to be restarted.
+
 ## [0.1.2] - 2026-09-11
 
 - Fixed Revert to Last Item so it restores the previous Boutique selection directly without briefly reverting the entire character.
